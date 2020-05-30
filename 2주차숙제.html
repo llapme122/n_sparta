@@ -23,29 +23,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <title>스파르타코딩클럽 | 1주차 과제</title>
 
+
     <script>
+
         function come() {
 
-            let name = $('#inlineFormInputGroup1').val();
-            let count = $('#inlineFormInputGroup2').val();
-            let ad = $('#inlineFormInputGroup3').val();
-            let number = $('#inlineFormInputGroup4').val();
-            let num_check = 
-        
-            if (name == ''){
-                alert("주문자 이름을 입력하세요.");
+            let f_name = $('#name').val();
+            let f_num = $('#num').val();
+            let f_ad = $('#ad').val();
+            let f_phone = $('#phone').val();
+
+
+
+            if (f_name == '') {
+                alert('주문자 이름을 입력하세요.');
             }
-            elif (count == ''){
-                alert("수량을 선택하세요.");
+            else if (f_num == '-- 수량을 선택하세요 --') {
+                alert('수량을 선택하세요.');
             }
-            elif (ad == ''){
-                alert("주소를 입력하세요.");
+            else if (f_ad == '') {
+                alert('주소를 입력하세요.');
             }
-            elif(number == ''){
-                alert("휴대폰 번호를 입력하세요");
-                if (number == )
+            else if (f_phone == '') {
+                alert('전화번호를 입력하세요.');
             }
-            alert('주문 완료!');
+            else if (f_phone.includes('-') != true) {
+                alert('010-0000-0000 형식으로 입력하세요.')
+            }
+            else {
+                alert('주문이 완료되었습니다.');
+            }
+        }
+
+        window.onload = function () {
+            // 페이지가 로딩된 후 실행해야 되는 코드를 추가한다.
+
+            $.ajax({
+                type: "GET", // GET 방식으로 요청한다.
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {}, // 요청하면서 함께 줄 데이터 (GET 요청시엔 비워두세요)
+                success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
+                let us_exchange = response[1]['rate']
+                    $('#exchange').text(us_exchange) // 서버에서 준 결과를 이용해서 나머지 코드를 작성
+                }
+            })
         }
     </script>
 
@@ -79,14 +100,19 @@
             width: 500px;
         }
 
-        .wrap2 {
-            margin: 10px 300px 100px 200px;
-            width: 100px;
+        .btn_wrap {
+            margin: auto;
+            display: block;
         }
 
         * {
 
             font-family: 'Nanum Myeongjo', serif;
+        }
+
+        .exchange_color{
+            color: blue;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -125,6 +151,8 @@
         <!-- 상품소개 -->
         <h2 class="full"> '들꽃' 판매합니다 <span>가격: 2,000원/개</span></h2>
         <p class="full2"> 봄의 기운을 머금은 들꽃 판매합니다! 화분에 잘 담아서 보내드립니다. &nbsp; &nbsp;* 화분 색상 랜덤</p>
+        <p class ="exchange_color">달러-원 환율:<span class ="exchange_color" id="exchange"></span>
+        </p>
     </div>
 
 
@@ -138,7 +166,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text">주문자 이름</div>
                 </div>
-                <input type="text" class="form-control" id="inlineFormInputGroup1">
+                <input type="text" class="form-control" id="name">
             </div>
         </div>
 
@@ -150,7 +178,7 @@
                     <div class="input-group-text">수량</div>
                 </div>
 
-                <select class="custom-select form-control" id="inlineFormInputGroup2">
+                <select class="custom-select form-control" id="num">
                     <option selected> -- 수량을 선택하세요 -- </option>
                     <option value="1"> 1 </option>
                     <option value="2"> 2 </option>
@@ -166,7 +194,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text">주소</div>
                 </div>
-                <input type="text" class="form-control" id="inlineFormInputGroup3">
+                <input type="text" class="form-control" id="ad">
             </div>
         </div>
 
@@ -177,12 +205,12 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text">전화번호</div>
                 </div>
-                <input type="text" class="form-control" id="inlineFormInputGroup4">
+                <input type="text" class="form-control" id="phone">
             </div>
         </div>
 
         <!--주문하기 버튼 -->
-        <button onclick="come()" type="button" class="btn btn-outline-warning wrap2">주문하기</button>
+        <button onclick="come()" type="button" class="btn btn-outline-warning btn_wrap">주문하기</button>
 
     </div>
 
